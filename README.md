@@ -1,1 +1,1 @@
-# TermProject-k-d-tree-
+# TermProject k-d-tree
