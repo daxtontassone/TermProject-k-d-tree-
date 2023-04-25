@@ -3,9 +3,8 @@
 
 class Node {
 private:
+    //every node has a vector for its data, a left and right node, and k dimensions
     std::vector<double> data;
-    int location;
-    Node* parent;
     Node* left;
     Node* right;
     friend class KDTree;
@@ -15,6 +14,3 @@ public:
     Node(std::vector<double> data, int size);
     ~Node();
 };
-
-
-
