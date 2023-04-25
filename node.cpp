@@ -1,25 +1,29 @@
 #include "node.h"
+#include <vector>
 
 // Default constructor
 Node::Node(){
-    this->data = 0;
-    this->left = nullptr;
-    this->right = nullptr;
+    this->k = 0;
+    Node* temp = new Node;
+    for (int i=0; i<k; i++) {
+        temp->data.push_back(0);
+    }
+    temp->left = temp->right = NULL;
 }
 
-Node::Node(int data){
-    this->data = data;
-    this->left = nullptr;
-    this->right = nullptr;
+Node::Node(std::vector<int> data, int size){
+    this->k = size;
+    Node* temp = new Node;
+    for (int i=0; i<k; i++) {
+        temp->data.push_back(data[i]);
+    }
+    temp->left = temp->right = NULL;
 }
 
-Node::Node(int data, Node* next){
-    this->data = data;
-    this->left = next;
-}
 
 Node::~Node(){
-    if(this->left != nullptr){
+    if(this->left != nullptr || this->right != nullptr){
         delete this->left;
+        delete this->right;
     }
 }
