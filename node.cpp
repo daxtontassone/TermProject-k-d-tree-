@@ -8,7 +8,7 @@ Node::Node(){
     for (int i=0; i<k; i++) {
         temp->data.push_back(0);
     }
-    temp->left = temp->right = NULL;
+    temp->left = temp->right = nullptr;
 }
 
 Node::Node(std::vector<double> data, int size){
@@ -17,7 +17,7 @@ Node::Node(std::vector<double> data, int size){
     for (int i=0; i<k; i++) {
         temp->data.push_back(data[i]);
     }
-    temp->left = temp->right = NULL;
+    temp->left = temp->right = nullptr;
 }
 
 
