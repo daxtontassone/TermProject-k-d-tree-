@@ -1,7 +1,7 @@
 #include "node.h"
 #include <vector>
 
-// Default constructor
+//default constructor
 Node::Node(){
     this->k = 0;
     Node* temp = new Node;
@@ -11,6 +11,7 @@ Node::Node(){
     temp->left = temp->right = nullptr;
 }
 
+//constructor when given a vector and size (k dimensions)
 Node::Node(std::vector<double> data, int size){
     this->k = size;
     Node* temp = new Node;
@@ -20,7 +21,7 @@ Node::Node(std::vector<double> data, int size){
     temp->left = temp->right = nullptr;
 }
 
-
+//deconstructor
 Node::~Node(){
     if(this->left != nullptr || this->right != nullptr){
         delete this->left;
