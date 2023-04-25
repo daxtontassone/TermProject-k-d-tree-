@@ -69,7 +69,7 @@ KDTree::KDTree(std::vector<std::vector<double>> list, int size){
 }
 
 KDTree::KDTree(){
-    this->root = NULL;
+    this->root = nullptr;
     this->size = 0;
 }
 
@@ -97,7 +97,7 @@ int KDTree::search(std::vector<double> point){
 
 int KDTree::search_helper(Node* node, std::vector<double> point, unsigned depth){
     // Base cases
-    if (node == NULL) {
+    if (node == nullptr) {
         return false;
     }
     // If the point in the current node matches the search point, return true
@@ -122,5 +122,25 @@ int KDTree::search_helper(Node* node, std::vector<double> point, unsigned depth)
 }
 
 void KDTree::print(){
+    print_helper(root, 0);
+}
 
+void KDTree::print_helper(Node* node, int depth){
+    if (!node) {
+        return;
+    }
+    for (int i = 0; i < depth; i++) {
+        if (i == depth - 1) {
+            std::cout << "|_";
+        } else {
+            std::cout << "  ";
+        }
+    }
+    std::cout << "(";
+    for (int i = 0; i < node->data.size(); i++) {
+        std::cout << ", " << node->data[i];
+    }
+    std::cout << ") [" << depth << "]" << "\n";
+    print_helper(node->left, depth + 1);
+    print_helper(node->right, depth + 1);
 }
