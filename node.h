@@ -1,17 +1,21 @@
 #include <iostream>
+#include <vector>
 
 class Node {
 private:
-    int data;
+    std::vector<double> data;
+    int location;
+    Node* parent;
     Node* left;
     Node* right;
+    friend class KDTree;
+    int k;
 public:
     Node();
-    // Overloading
-    Node(int data);
-    Node(int data, Node* next);
+    Node(std::vector<int> data, int size);
     ~Node();
 };
+
 
 
 
