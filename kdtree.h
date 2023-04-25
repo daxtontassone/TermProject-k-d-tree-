@@ -2,14 +2,18 @@
 
 class KDTree {
 private:
-    bool same(int point1[], int point2[]);
-    int find_median(std::vector<std::vector<double>> list, int dimension);
-    Node* construct(std::vector<std::vector<double>> list, int depth, int i);
+    Node* root;
     int size;
+    bool same(int point1[], int point2[]);
+    int find_median(std::vector<std::vector<double>> list, int dimension, int &median_index);
+    Node* construct(std::vector<std::vector<double>> list, int depth);
+    int search_helper(Node* root, std::vector<double> point, unsigned depth);
+    void insert_helper(Node* root, std::vector<double> point, int depth);
 public:
     KDTree(std::vector<std::vector<double>> list, int size);
-    Node* insert(Node *root, int point[], unsigned depth);
-    int search(Node* root, int point[], unsigned depth);
+    KDTree();
+    void insert(std::vector<double> point);
+    int search(std::vector<double> point);
     void print();
 };
 
