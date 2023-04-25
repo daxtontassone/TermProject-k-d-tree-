@@ -43,6 +43,9 @@ Node* KDTree::construct(std::vector<std::vector<double>> list, int depth, int i)
     int median = find_median(list, axis);
     data->location = median;
     data->data = list[i];
+    if (list.size() == 1){
+        return data;
+    }
     std::vector<std::vector<double>> left_list;
     std::vector<std::vector<double>> right_list;
     for (int i = 0 ; i < list.size() ; i++){
@@ -54,6 +57,7 @@ Node* KDTree::construct(std::vector<std::vector<double>> list, int depth, int i)
             right_list.push_back(list[i]);
         }
     }
+
     data->left = construct(left_list, depth+1, i+1);
     data->right = construct(right_list, depth+1, i+1);
     return data;
