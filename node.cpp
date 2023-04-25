@@ -11,7 +11,7 @@ Node::Node(){
     temp->left = temp->right = NULL;
 }
 
-Node::Node(std::vector<int> data, int size){
+Node::Node(std::vector<double> data, int size){
     this->k = size;
     Node* temp = new Node;
     for (int i=0; i<k; i++) {
