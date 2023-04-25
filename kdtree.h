@@ -9,6 +9,7 @@ private:
     Node* construct(std::vector<std::vector<double>> list, int depth);
     int search_helper(Node* root, std::vector<double> point, unsigned depth);
     void insert_helper(Node* root, std::vector<double> point, int depth);
+    void print_helper(Node* node, int depth);
 public:
     KDTree(std::vector<std::vector<double>> list, int size);
     KDTree();
@@ -16,5 +17,3 @@ public:
     int search(std::vector<double> point);
     void print();
 };
-
-
