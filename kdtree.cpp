@@ -30,13 +30,14 @@ Node* KDTree::construct(std::vector<std::vector<double>> list, int depth){
     //depth variable that takes the depth and mods it by size (k dimension)
     depth = depth % size;
     //make new node
-    Node* data;
+    Node* data = new Node;
     //median_index is a pointer
-    int *median_index = nullptr;
+    int median_index;
     //find median and get median_index
-    int median = find_median(list, depth, *median_index);
+    int median;
+    median = find_median(list, depth, median_index);
     //node data is list indexed by median_index
-    data->data = list[*median_index];
+    data->data = list[median_index];
     //if list size is 1, return data (base case)
     if (list.size() == 1){
         return data;
