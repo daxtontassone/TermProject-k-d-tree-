@@ -12,10 +12,9 @@ private:
     int k;
 public:
     Node();
-    Node(std::vector<int> data, int size);
+    Node(std::vector<double> data, int size);
     ~Node();
 };
-
 
 
 
