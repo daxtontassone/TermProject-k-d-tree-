@@ -34,17 +34,50 @@ int main(int argc, char*argv[]) {
 
     KDTree tree(points, size);
 
-//    // Print out the points
-//    for (const auto& point : points) {
-//        std::cout << "[";
-//        for (size_t i = 0; i < point.size(); ++i) {
-//            std::cout << point[i];
-//            if (i != point.size() - 1) {
-//                std::cout << ", ";
-//            }
-//        }
-//        std::cout << "]" << std::endl;
-//    }
-//
+    std::string input;
+    while (input != "end"){
+        std::cout<<"Commands: Insert, Search, Print";
+        std::cin>>input;
+        for (int i = 0 ; i < input.size() ; i++){
+            input[i] = tolower(input[i]);
+        }
+        if (input == "insert"){
+            std::cout<<"Enter the point you want to insert (ex: [340, 2] or [98, 320, 789]):";
+            std::vector<double> point;
+            std::string pointString;
+            std::cin>>pointString;
+            pointString.erase(remove(pointString.begin(), pointString.end(), '['), pointString.end());
+            pointString.erase(remove(pointString.begin(), pointString.end(), ']'), pointString.end());
+            for (int i = 0 ; i < size ; i++) {
+                std::stringstream pointStream(pointString);
+                std::getline(pointStream, pointString, ',');
+                double coordinate = std::stod(coordinate_str);
+                point.push_back(coordinate);
+            }
+            tree.insert(point);
+        }
+        else if (input == "search"){
+            std::cout<<"Enter what you want to search for (ex: [1, 2] or [23, 55, 789]):";
+            std::vector<double> point;
+            std::string pointString;
+            std::cin>>pointString;
+            pointString.erase(remove(pointString.begin(), pointString.end(), '['), pointString.end());
+            pointString.erase(remove(pointString.begin(), pointString.end(), ']'), pointString.end());
+            for (int i = 0 ; i < size ; i++) {
+                std::stringstream pointStream(pointString);
+                std::getline(pointStream, pointString, ',');
+                double coordinate = std::stod(coordinate_str);
+                point.push_back(coordinate);
+            }
+            tree.search(point);
+        }
+        else if(input == "print"){
+            tree.print();
+        }
+        else {
+            std::cout<<"Looks like you input something besides one of the allowed commands. Please try again." << std::endl;
+        }
+    }
+
     return 0;
 }
