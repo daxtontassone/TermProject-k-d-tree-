@@ -11,7 +11,7 @@ bool KDTree::same(int point1[], int point2[]){
     return true;
 }
 
-int KDTree::find_median(std::vector<std::vector<double>> list, int dimension){
+int KDTree::find_median(std::vector<std::vector<double>> list, int dimension, int &median_index){
         // Get the number of points
         int num_points = list.size();
 
@@ -22,8 +22,7 @@ int KDTree::find_median(std::vector<std::vector<double>> list, int dimension){
                   });
 
         // Find the index of the median point
-        int median_index = num_points / 2;
-
+        median_index = num_points / 2;
         // If there are an odd number of points, return the value at the median index
         if (num_points % 2 == 1) {
             return list[median_index][dimension];
@@ -37,12 +36,13 @@ int KDTree::find_median(std::vector<std::vector<double>> list, int dimension){
 }
 
 
-Node* KDTree::construct(std::vector<std::vector<double>> list, int depth, int i){
+Node* KDTree::construct(std::vector<std::vector<double>> list, int depth){
     int axis = depth % size;
     Node* data;
-    int median = find_median(list, axis);
+    int* median_index;
+    int median = find_median(list, axis, *median_index);
     data->location = median;
-    data->data = list[i];
+    data->data = list[*median_index];
     if (list.size() == 1){
         return data;
     }
@@ -58,54 +58,67 @@ Node* KDTree::construct(std::vector<std::vector<double>> list, int depth, int i)
         }
     }
 
-    data->left = construct(left_list, depth+1, i+1);
-    data->right = construct(right_list, depth+1, i+1);
+    data->left = construct(left_list, depth+1);
+    data->right = construct(right_list, depth+1);
     return data;
 }
 
 KDTree::KDTree(std::vector<std::vector<double>> list, int size){
     this->size = size;
-    construct(list, 0, 0);
+    this->root = construct(list, 0);
 }
 
-Node* KDTree::insert(Node *root, int point[], unsigned depth) {
-    // if tree is empty
-    if (root == NULL) {
-        //return Node(point);
-    }
-    // Calculate current dimension of comparison
-    unsigned currentDim = depth % size;
-
-    // Compare the new point with root on current dimension 'cd'
-    // and decide the left or right subtree
-    if (point[currentDim] < (root->data[currentDim])) {
-        root->left = insert(root->left, point, depth + 1);
-    }
-    else {
-        root->right = insert(root->right, point, depth + 1);
-    }
-
-    return root;
+KDTree::KDTree(){
+    this->root = NULL;
+    this->size = 0;
 }
 
-int KDTree::search(Node* root, int point[], unsigned depth){
+void KDTree::insert(std::vector<double> point){
+    insert_helper(root, point, 0);
+}
+
+void KDTree::insert_helper(Node *root, std::vector<double> point, int depth) {
+    depth = depth % size;
+    if (!root) {
+        root = new Node(point, depth);
+        return;
+    }
+    int dimension = depth % point.size();
+    if (point[dimension] < root->data[dimension]) {
+        insert_helper(root->left, point, depth + 1);
+    } else {
+        insert_helper(root->right, point, depth + 1);
+    }
+}
+
+int KDTree::search(std::vector<double> point){
+    return search_helper(root, point, 0);
+}
+
+int KDTree::search_helper(Node* node, std::vector<double> point, unsigned depth){
     // Base cases
-    if (root == NULL) {
+    if (node == NULL) {
         return false;
     }
-//    if (same(root->data, point)) {
-//        return true;
-//    }
-
-    // Current dimension is computed using current depth and total
-    // dimensions (k)
-    unsigned currentDim = depth % size;
-
-    // Compare point with root with respect to cd (Current dimension)
-    if (point[currentDim] < root->data[currentDim]) {
-        return search(root->left, point, depth + 1);
+    // If the point in the current node matches the search point, return true
+    bool match = true;
+    for (int i = 0 ; i < size ; i++) {
+        if (node->data[i] != point[i]) {
+            match = false;
+            break;
+        }
     }
-    return search(root->right, point, depth + 1);
+    if (match) {
+        return true;
+    }
+
+    // Check if the search should continue in the left or right subtree based on the current depth
+    int axis = depth % size;
+    if (point[axis] < node->data[axis]) {
+        return search_helper(node->left, point, depth + 1);
+    } else {
+        return search_helper(node->right, point, depth + 1);
+    }
 }
 
 void KDTree::print(){
